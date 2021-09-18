@@ -1,0 +1,21 @@
+# Sets the DOTFILES_PATH environment variable
+source ~/.zsh/path-finder.zsh
+
+# PATH
+export PATH=/opt/homebrew/bin:/opt/brew/bin:$PATH
+export PATH=${DOTFILES_PATH}/bin:$PATH # DOTFILES_PATH defined in `path-finder.zsh`
+
+# bat
+export BAT_THEME="base16"
+
+# editor
+export EDITOR='vim'
+# keep emacs cli bindings even though EDITOR is vim
+# https://unix.stackexchange.com/questions/197839/why-does-exporting-vim-as-editor-in-zsh-disable-keyboard-shortcuts
+bindkey -e
+
+# fzf
+export FZF_COMPLETION_TRIGGER=','
+
+# homebrew
+export HOMEBREW_BUNDLE_NO_LOCK=1

@@ -1,0 +1,14 @@
+## Scripts
+command script import ~/.lldb/pof.py
+command script import ~/.lldb/ch.py
+command script import ~/.lldb/getLastReturnValue.py
+command script import ~/.lldb/debugDynamicAnimator.py
+
+## Aliases
+command alias kw expr -l objc++ -O -- [UIWindow keyWindow]
+command alias rvc expr -l objc++ -O -- [[UIWindow keyWindow] rootViewController]
+command alias rvcd expr -l objc++ -O -- [[[UIWindow keyWindow] rootViewController] recursiveDescription]
+command alias fr expr -l objc++ -O -- [[UIWindow keyWindow] valueForKey:@"firstResponder"]
+command alias opo expr -l objc++ -O -- 
+command alias px expression unsafeBitCast(%1, to: Int.self)
+

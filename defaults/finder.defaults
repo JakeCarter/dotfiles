@@ -1,0 +1,16 @@
+# $HOME should be '/Users/[user_name]'
+defaults write com.apple.finder NewWindowTargetPath -string "file://$HOME/"
+defaults write com.apple.finder NewWindowTarget -string "PfHm"
+
+# Prefer list view
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+
+defaults write com.apple.finder WarnOnEmptyTrash -bool false
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+defaults write com.apple.finder AppleShowAllExtensions -bool true
+
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+
+# TODO: Remove 'All My Files' from sidebar.
+# TODO: Set 'Sort by Name' as default.
+# TODO: Set 'Calculate all Sizes' on.

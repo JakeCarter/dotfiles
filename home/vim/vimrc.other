@@ -1,0 +1,118 @@
+" Don't bother with vi compatibility
+set nocompatible
+
+" Do indenting
+set autoindent
+set smartindent
+
+" Set global tab options
+set backspace=2
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+" Set local per-file tab options
+autocmd Filetype ruby setlocal tabstop=2
+autocmd Filetype ruby setlocal shiftwidth=2
+autocmd Filetype feature setlocal tabstop=2
+autocmd Filetype feature setlocal shiftwidth=2
+autocmd Filetype haml setlocal tabstop=2
+autocmd Filetype haml setlocal shiftwidth=2
+autocmd Filetype sass setlocal tabstop=2
+autocmd Filetype sass setlocal shiftwidth=2
+autocmd Filetype jade setlocal tabstop=2
+autocmd Filetype jade setlocal shiftwidth=2
+autocmd Filetype markdown setlocal textwidth=80
+autocmd Filetype yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+" Do continuous search & show line numbers
+set incsearch
+set number
+
+"set relativenumber " Off for now – they're not as helpful as I thought they'd be
+
+" Enable highlighting, colors
+syntax on
+colorscheme molokai
+" ...but don't highlight search results
+set nohlsearch
+
+" Don't clutter up current directory with tempfiles
+set dir=~/.vim/tmp
+
+" Use a custom leader character for easier access
+let mapleader = ','
+
+" Provide capitalization binding (gc<motion>)
+if (&tildeop)
+  nmap gcw guw~l
+  nmap gcW guW~l
+  nmap gciw guiw~l
+  nmap gciW guiW~l
+  nmap gcis guis~l
+  nmap gc$ gu$~l
+  nmap gcgc guu~l
+  nmap gcc guu~l
+  vmap gc gu~l
+else
+  nmap gcw guw~h
+  nmap gcW guW~h
+  nmap gciw guiw~h
+  nmap gciW guiW~h
+  nmap gcis guis~h
+  nmap gc$ gu$~h
+  nmap gcgc guu~h
+  nmap gcc guu~h
+  vmap gc gu~h
+endif
+" Navigate within wrapped lines
+noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
+" Plugins
+so ~/.vim/autoclose.vim
+so ~/.vim/surround.vim
+so ~/.vim/minibufexpl.vim
+" Automatically generate ctags on code file writes
+" disabled since I never use it anymore
+"au BufWritePost *.c,*.h,*.rb,*.php,*.pl,*.py silent! !ctags 2>/dev/null
+call pathogen#infect()
+filetype plugin indent on
+" Set some options for plugins
+"" MiniBufExpl
+let g:miniBufExplSplitBelow=1
+let g:miniBufExplMapCTabSwitchBufs = 1
+map <Leader>mbe :MiniBufExplorer<cr>
+"" ctrlp
+let g:ctrlp_root_markers = ['requirements.txt']
+let g:ctrlp_match_current_file = 1
+"" syntastic
+let g:syntastic_go_checkers = ['govet', 'errcheck', 'go']
+let g:syntastic_mode_map = {
+    \ "mode": "active",
+    \ "passive_filetypes": ["python"] }
+"" vim-go
+let g:go_list_type = "quickfix"
+let g:go_def_mode = 'godef'
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+"" python-mode
+let g:pymode_python = 'python3'
+let g:pymode_virtualenv = 1
+let g:pymode_options_colorcolumn = 0
+let g:pymode_lint = 1
+let g:pymode_lint_on_write = 1
+let g:pymode_lint_unmodified = 1
+let g:pymode_lint_checkers = ["pep8", "pylint"]
+let g:pymode_lint_ignore = ["E501"]
+let g:pymode_lint_cwindow = 0
+let g:pymode_rope = 0
+"" rust.vim
+let g:rustfmt_autosave = 1
+"" trailer-trash
+map <Leader>tt :.TrailerTrim<cr>
+" Load extra files
+for f in split(glob('~/.vimrc.*'), '\n')
+    exe 'source' f
+endfor

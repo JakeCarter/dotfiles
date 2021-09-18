@@ -1,0 +1,10 @@
+if [ `which defaults` ]
+then
+  for f in *.defaults
+  do
+    source $f
+  done
+
+  echo "OS X defaults written. Note that some of these changes require a logout/restart to take effect."
+  echo "Or maybe just a simple killall Finder."
+fi

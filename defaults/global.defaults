@@ -1,0 +1,6 @@
+# TODO: Set first day of week to Monday
+# Sets first day of week to Monday
+#defaults write -g AppleFirstWeekday -dict-add gregorian 2
+
+# TODO: Enable Tap to Click
+# TODO: Enable App Expose

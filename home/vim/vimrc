@@ -1,0 +1,261 @@
+" Don't bother with vi compatibility
+set nocompatible
+
+" turn off the netrw banner
+let g:netrw_banner = 0
+
+set laststatus=2 " Always display the statusline in all windows
+set showtabline=2 " Always display the tabline, even if there is only one tab
+"set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
+set clipboard=unnamed
+
+set complete=.,w,b,u,t,i,kspell
+
+
+set backspace=indent,eol,start      "BS past autoindents, line boundaries,
+                                    "     and even the start of insertion
+set rtp+=/usr/local/opt/fzf
+
+"
+" Abbreviations
+"
+
+" Load current buffer in Safari
+abbrev sf :! open -a Safari.app %:p<cr> 
+
+" Launch current buffer in PICO-8
+abbrev pp8 :! /Applications/PICO-8.app/Contents/MacOS/pico8 -run "%:p"
+
+"Enable filetypes
+filetype on
+filetype plugin on
+filetype indent on
+syntax on
+
+"Write the old file out when switching between files.
+set autowrite
+
+"Display current cursor position in lower right corner.
+set ruler
+
+"Want a different map leader than \
+let mapleader = ","
+
+map <leader>x :x<cr>
+map <leader>xq :x<bar>q<cr>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Spell checking
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" " Pressing ,ss will toggle and untoggle spell checking
+"set spell spelllang=en_us
+set spellfile=~/.vim/spell/en.utf-8.add
+map <leader>ss :setlocal spell!<cr>
+autocmd FileType gitcommit setlocal spell
+autocmd FileType gitcommit call s:GitCommitDiff()
+"
+" " Shortcuts using <leader>
+map <leader>sn ]s
+map <leader>sp [s
+map <leader>sa zg
+map <leader>s? z=
+
+" inoremap <F5> <C-O>:call MyVimFunc()<CR>
+
+nnoremap <silent> <C-l> :call EnableSpellAndFindNext()<CR>
+nnoremap <leader>l :call EnableSpellAndFindNext()<CR>
+" nmap <C-l> :call EnableSpellAndFindNext()<CR>
+
+function! EnableSpellAndFindNext()
+  set spell
+  :normal ]s
+endfunction
+
+function! s:GitCommitDiff()
+    new
+    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+    silent execute '$read !git diff --cached'
+    set syntax=diff
+    setlocal nomodifiable
+    1
+endfunction
+
+
+"Ever notice a slight lag after typing the leader key + command? This lowers
+"the timeout.
+set timeoutlen=500
+
+"Switch between buffers without saving
+set hidden
+
+"Set the color scheme. Change this to your preference.
+"Here's 100 to choose from: http://www.vim.org/scripts/script.php?script_id=625
+set background=dark
+colorscheme dim
+
+"Set font type and size. Depends on the resolution. Larger screens, prefer h20
+"set guifont=Menlo:h14
+
+"Tab stuff
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+
+"Show command in bottom right portion of the screen
+set showcmd
+
+"Show lines numbers
+set number
+
+"Indent stuff
+set smartindent
+set autoindent
+
+"Always show the status line
+set laststatus=2
+
+"Prefer a slightly higher line height
+set linespace=3
+
+"Better line wrapping
+set nowrap
+"set textwidth=79
+"set formatoptions=qrn1
+
+"Set incremental searching"
+set incsearch
+
+"Highlight searching
+set hlsearch
+
+" case insensitive search
+set ignorecase
+set smartcase
+
+"Hard-wrap paragraphs of text
+nnoremap <leader>q gqip
+
+"Enable code folding
+set foldenable
+
+"Hide mouse when typing
+set mousehide
+set mouse=a
+
+"Shortcut to fold tags with leader (usually \) + ft
+nnoremap <leader>ft Vatzf
+
+" Create dictionary for custom expansions
+set dictionary+=$HOME/.vim/dict.txt
+
+"Opens a vertical split and switches over (\v)
+nnoremap <leader>v <C-w>v<C-w>l
+
+"Split windows below the current window.
+set splitbelow              
+
+" session settings
+set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
+
+"Set up templates for new files
+autocmd BufNewFile *.* silent! 0r $HOME/.vim/templates/template.%:e
+
+"Map a change directory to the desktop - Mac specific
+nmap <leader>d :cd ~/Desktop<cr>:e.<cr>
+
+"Shortcut for editing  vimrc file in a new tab
+nmap <leader>ev :tabedit $MYVIMRC<cr>
+
+"Saves time; maps the spacebar to colon
+nmap <space> :
+
+"Automatically change current directory to that of the file in the buffer
+" autocmd BufEnter * cd %:p:h
+
+"Map code completion to , + tab
+imap <leader><tab> <C-x><C-o>
+
+" More useful command-line completion
+set wildmenu
+
+"Auto-completion menu
+set wildmode=list:longest
+
+"http://vim.wikia.com/wiki/Make_Vim_completion_popup_menu_work_just_like_in_an_IDE
+set completeopt=longest,menuone
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+"Map escape key to jj -- much faster
+imap jj <esc>
+
+"Delete all buffers (via Derek Wyatt)
+nmap <silent> ,da :exec "1," . bufnr('$') . "bd"<cr>
+
+"Bubble single lines (kicks butt)
+"http://vimcasts.org/episodes/bubbling-text/
+nmap <C-Up> ddkP
+nmap <C-Down> ddp
+
+"Bubble multiple lines
+vmap <C-Up> xkP`[V`]
+vmap <C-Down> xp`[V`]
+
+" Source the vimrc file after saving it. This way, you don't have to reload Vim to see the changes.
+if has("autocmd")
+ augroup myvimrchooks
+  au!
+  autocmd bufwritepost .vimrc source ~/.vimrc
+ augroup END
+endif
+
+" easier window navigation
+nmap <C-h> <C-w>h
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+" nmap <C-l> <C-w>l
+
+"Helpeful abbreviations
+iab lorem Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+iab llorem Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+
+" Get to home dir easier
+" <leader>hm is easier to type than :cd ~
+nmap <leader>hm :cd ~/ <CR>
+
+" Alphabetically sort CSS properties in file with :SortCSS
+:command! SortCSS :g#\({\n\)\@<=#.,/}/sort
+
+" Shortcut to opening a virtual split to right of current pane
+" Makes more sense than opening to the left
+nmap <leader>bv :bel vsp
+
+" Saves file when Vim window loses focus
+au BufLeave,FocusLost * silent! wall
+
+" Backups
+"set backupdir=~/.vim/tmp/backup// " backups
+"set directory=~/.vim/tmp/swap// " swap files
+"set backup " enable backup
+
+" No more stretching for navigating files
+"noremap h ;
+"noremap j h
+"noremap k gj
+"noremap l gk
+"noremap ; l
+
+set showmatch " show matching brackets
+
+" print empty <a> tag
+map! ;h <a href=""></a><ESC>5hi
+
+function! Hw()
+  :%norm I#import "
+  :%norm A.h"
+  :w !pbcopy
+endfunction

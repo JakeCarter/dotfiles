@@ -1,0 +1,3 @@
+#compdef d
+
+_arguments "*: :($(d))"

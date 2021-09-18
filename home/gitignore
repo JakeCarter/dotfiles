@@ -1,0 +1,11 @@
+.DS_Store
+xcuserdata
+*/project.xcworkspace/xcuserdata/*
+*.swp
+*.xcscmblueprint
+lldb-tmp-widehistory
+.Spotlight-V100
+.Trashes
+.fseventsd
+.DocumentRevisions-V100
+.TemporaryItems

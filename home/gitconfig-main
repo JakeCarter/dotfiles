@@ -1,0 +1,35 @@
+[includeIf "gitdir:/Volumes/Developer/"]
+  path = ~/.work/gitconfig-work
+[alias]
+  co = checkout
+  ci = commit
+  cp = cherry-pick
+  st = status
+  br = branch
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  list-stale = !"git br -vv | grep \": gone]\" | cut -d\" \" -f3"
+  prune-stale = !"git list-stale | xargs git br -D"
+  unstage = restore --staged
+  li = !git ls-files -v | grep ^S
+  i = update-index --skip-worktree
+  u = update-index --no-skip-worktree
+  stop-lying = !"git li | cut -d" " -f 2 | xargs git u"
+  diffw = diff --color-words
+  diffc = diff --cached
+  diffcw = diff --cached --color-words
+  porcelain-branch = !"git branch --format='%(refname:short)'"
+[core]
+	excludesfile = ~/.gitignore
+	quotepath = false
+[color]
+	gui = true
+[mergetool]
+	keepBackup = true
+[push]
+    default = current
+[pull]
+	ff = only
+[init]
+	defaultBranch = main
+[fetch]
+	prune = true

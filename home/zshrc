@@ -1,0 +1,10 @@
+# Options
+setopt PROMPT_SUBST # PROMPT string is first subjected to parameter expansion, command substitution and arithmetic expansion
+setopt autocd
+
+source ~/.zsh/aliases.zsh
+source ~/.zsh/completions.zsh
+source ~/.zsh/fzf-completions.zsh
+source ~/.zsh/conditional-includes.zsh
+source ~/.zsh/prompt-vcs-info.zsh
+source ~/.zsh/personal.zsh
