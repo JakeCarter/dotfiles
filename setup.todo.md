@@ -7,7 +7,3 @@ Separate quick prompt info from longer async info and leave placeholder that wil
 Later, when async comes back:
 
 `<normal zsh prompt stuff>(get-branch)(branch-status-inf0)`
-
-# [ ] Setup Manifest
-
-Setup script should write a manifest that can be used later to "uninstall"
