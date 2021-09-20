@@ -14,6 +14,16 @@ _fzf_complete_git_worktrees_post() {
     cut -f1 -d' '
 }
 
+_fzf_complete_git_changed_files() {
+    _fzf_complete -- "$@" < <(
+        git status --porcelain
+    )
+}
+
+_fzf_complete_git_changed_files_post() {
+    cut -d' ' -f3
+}
+
 _fzf_complete_git() {
     # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion-Flags
     local tokens=(${(z)LBUFFER})
@@ -42,6 +52,9 @@ _fzf_complete_git() {
                 ;;
             esac
             return
+        ;;
+        (add|unstage)
+            _fzf_complete_git_changed_files "$@"
         ;;
     esac
 }
