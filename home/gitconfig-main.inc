@@ -1,5 +1,3 @@
-[includeIf "gitdir:/Volumes/Developer/"]
-  path = ~/.work/gitconfig-work
 [alias]
   co = checkout
   ci = commit

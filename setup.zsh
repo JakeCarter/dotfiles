@@ -52,7 +52,7 @@ function _setup_gitconfig() {
         git config --global user.email $gitemail
         unset gitemail
         
-        git config --global include.path ~/.gitconfig-main
+        git config --global include.path ~/.gitconfig-main.inc
     else
         echo "Couldn't find `git` command or `~/.gitconfig` already exists."
     fi
