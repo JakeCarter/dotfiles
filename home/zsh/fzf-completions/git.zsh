@@ -39,7 +39,7 @@ _fzf_complete_git() {
             _fzf_complete_git_branches "$@"
             return
         ;;
-        (worktree)
+        (wt|worktree)
             # git worktree foo ,
             # 1   2        3   4  <- need at least 4 tokens
             if [[ ${#tokens} -le 3 ]]; then

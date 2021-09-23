@@ -4,6 +4,7 @@
   cp = cherry-pick
   st = status
   br = branch
+  wt = worktree
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
   list-stale = !"git br -vv | grep \": gone]\" | cut -d\" \" -f3"
   prune-stale = !"git list-stale | xargs git br -D"
