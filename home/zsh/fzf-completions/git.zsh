@@ -21,7 +21,8 @@ _fzf_complete_git_changed_files() {
 }
 
 _fzf_complete_git_changed_files_post() {
-    cut -d' ' -f2
+    # keep everything starting at the 4th char
+    cut -c 4-
 }
 
 _fzf_complete_git() {
