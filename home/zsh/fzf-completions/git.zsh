@@ -15,13 +15,13 @@ _fzf_complete_git_worktrees_post() {
 }
 
 _fzf_complete_git_changed_files() {
-    _fzf_complete -- "$@" < <(
+    _fzf_complete --multi -- "$@" < <(
         git status --porcelain
     )
 }
 
 _fzf_complete_git_changed_files_post() {
-    cut -d' ' -f3
+    cut -d' ' -f2
 }
 
 _fzf_complete_git() {

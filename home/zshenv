@@ -16,6 +16,7 @@ bindkey -e
 
 # fzf
 export FZF_COMPLETION_TRIGGER=','
+export FZF_COMPLETION_OPTS='--border'
 
 # homebrew
 export HOMEBREW_BUNDLE_NO_LOCK=1
