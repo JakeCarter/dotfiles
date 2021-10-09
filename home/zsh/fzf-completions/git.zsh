@@ -27,6 +27,7 @@ _fzf_complete_git_changed_files_post() {
 
 _fzf_complete_git() {
     # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion-Flags
+    # `(z)` splits at zsh word boundaries
     local tokens=(${(z)LBUFFER})
     # git foo ,
     # 1   2   3  <- need at least 3 tokens
