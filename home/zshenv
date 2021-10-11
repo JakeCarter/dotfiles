@@ -5,6 +5,9 @@ source ~/.zsh/path-finder.zsh
 export PATH=/opt/homebrew/bin:/opt/brew/bin:$PATH
 export PATH=${DOTFILES_PATH}/bin:$PATH # DOTFILES_PATH defined in `path-finder.zsh`
 
+# Named Directories — https://zsh.sourceforge.io/Guide/zshguide02.html#l20
+export dotfiles=$DOTFILES_PATH
+
 # bat
 export BAT_THEME="base16"
 
