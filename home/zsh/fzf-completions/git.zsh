@@ -9,7 +9,6 @@ _fzf_complete_git_worktrees() {
         git worktree list
     )
 }
-
 _fzf_complete_git_worktrees_post() {
     cut -f1 -d' '
 }
@@ -19,10 +18,18 @@ _fzf_complete_git_changed_files() {
         git status --porcelain
     )
 }
-
 _fzf_complete_git_changed_files_post() {
     # keep everything starting at the 4th char
     cut -c 4-
+}
+
+_fzf_complete_git_stashes() {
+    _fzf_complete -- "$@" < <(
+        git stash list
+    )
+}
+_fzf_complete_git_stashes_post() {
+    cut -d':' -f1
 }
 
 _fzf_complete_git() {
@@ -57,6 +64,9 @@ _fzf_complete_git() {
         ;;
         (add|unstage)
             _fzf_complete_git_changed_files "$@"
+        ;;
+        (stash)
+            _fzf_complete_git_stashes "$@"
         ;;
     esac
 }
