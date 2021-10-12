@@ -32,6 +32,15 @@ _fzf_complete_git_stashes_post() {
     cut -d':' -f1
 }
 
+_fzf_complete_git_commit_hash() {
+    _fzf_complete -- "$@" < <(
+        git lg -n 100
+    )
+}
+_fzf_complete_git_commit_hash_post() {
+    cut -d'-' -f1 | egrep -o \\w+
+}
+
 _fzf_complete_git() {
     # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion-Flags
     # `(z)` splits at zsh word boundaries
@@ -68,5 +77,27 @@ _fzf_complete_git() {
         (stash)
             _fzf_complete_git_stashes "$@"
         ;;
+        (rebase)
+            # git rebase --onto ,
+            # 1   2      3      4  <- need at least 4 tokens
+            if [[ ${#tokens} -le 3 ]]; then
+                return
+            fi
+            
+            local git_rebase_subcommand=${tokens[3]}
+            case "$git_rebase_subcommand" in
+                (--onto)
+                    # git rebase --onto branch start-hash end-branch-name
+                    # 1   2      3      4      5          6                <- comma could appear at 4, 5 or 6
+                    if [[ ${#tokens} -eq 4 ]]; then
+                        _fzf_complete_git_branches "$@"
+                    elif [[ ${#tokens} -eq 5 ]]; then
+                        _fzf_complete_git_commit_hash "$@"
+                    elif [[ ${#tokens} -eq 6 ]]; then
+                        # JCTODO: I only ever rebase the full contents of the branch. Output current branch name.
+                    fi
+                    return
+                ;;
+            esac
     esac
 }
