@@ -4,6 +4,9 @@ setopt AUTOCD               # Treat input as a `cd` command by default (i.e. typ
 setopt AUTO_PUSHD           # Push the current directory visited on the stack.
 setopt PUSHD_IGNORE_DUPS    # Do not store duplicates in the stack.
 setopt PUSHD_SILENT         # Do not print the directory stack after pushd or popd.
+setopt INC_APPEND_HISTORY   # Add commands to history as they are entered, don't wait for shell to exit
+setopt HIST_IGNORE_DUPS     # Ignore dups in history
+setopt SHARE_HISTORY        # Share history between zsh sessions; Must explicitly type the `history` command in receiving session to populate history recall
 
 source ~/.zsh/aliases.zsh
 source ~/.zsh/completions.zsh

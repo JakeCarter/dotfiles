@@ -11,7 +11,12 @@ list-colors() {
 
 show-colors() {
     # https://tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html
-    T='•••'   # The text for the color test
+    
+    # The text for the color test
+    local T='•••'
+    if [[ -n "$1" ]]; then
+        T="$1"
+    fi
     
     echo -e "\n         def     40m     41m     42m     43m     44m     45m     46m     47m";
     
