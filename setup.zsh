@@ -42,8 +42,8 @@ function _setup_manifest_write() {
 }
 
 function _setup_gitconfig() {
-    if [[ +commands[git] && ! -f ~/.gitconfig ]]; then
-        echo "No `~/.gitconfig` file found..."
+    if [[ ${+commands[git]} && ! -f ~/.gitconfig ]]; then
+        echo "No '~/.gitconfig' file found..."
         vared -c -p '  enter name > ' gitusername
         git config --global user.name $gitusername
         unset gitusername
@@ -84,6 +84,7 @@ local subcommand=$1
 case $subcommand in
     (install)
         _setup_install
+        _setup_gitconfig
     ;;
     (uninstall)
         _setup_uninstall
