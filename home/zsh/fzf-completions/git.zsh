@@ -14,7 +14,8 @@ _fzf_complete_git_worktrees_post() {
 }
 
 _fzf_complete_git_changed_files() {
-    _fzf_complete --height 50% --multi --preview 'git diff -- $(echo {} | cut -c 4-) | bat --style=numbers --color=always --line-range :500' --preview-window down,80% -- "$@" < <(
+    # JCTODO: `git diff` below assumes changes are unstaged. It won't show a diff if changes have already been staged. For that we'd need to use `git diff --cached`; Should update this to be able to handle that use-case.
+    _fzf_complete --height 50% --multi --preview 'git diff $(echo {} | cut -c 4-) | bat --style=numbers --color=always --line-range :500' --preview-window down,80% -- "$@" < <(
         git status --porcelain
     )
 }
