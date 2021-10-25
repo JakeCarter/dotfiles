@@ -14,7 +14,7 @@ _fzf_complete_git_worktrees_post() {
 }
 
 _fzf_complete_git_changed_files() {
-    _fzf_complete --multi -- "$@" < <(
+    _fzf_complete --height 50% --multi --preview 'git diff -- $(echo {} | cut -c 4-) | bat --style=numbers --color=always --line-range :500' --preview-window down,80% -- "$@" < <(
         git status --porcelain
     )
 }
@@ -67,15 +67,34 @@ _fzf_complete_git() {
             case "$git_worktree_subcommand" in
                 (remove)
                     _fzf_complete_git_worktrees "$@"
+                    return
                 ;;
             esac
             return
         ;;
         (add|unstage)
             _fzf_complete_git_changed_files "$@"
+            return
         ;;
         (stash)
-            _fzf_complete_git_stashes "$@"
+            # git stash push ,
+            # 1   2     3    4  <- need at least 4 tokens
+            if [[ ${#tokens} -le 3 ]]; then
+                return
+            fi
+            
+            local git_stash_subcommand=${tokens[3]}
+            case "$git_stash_subcommand" in
+                (push)
+                    _fzf_complete_git_changed_files "$@"
+                    return
+                ;;
+                (*)
+                    _fzf_complete_git_stashes "$@"
+                    return
+                ;;
+            esac
+            return
         ;;
         (rebase)
             # git rebase --onto ,
