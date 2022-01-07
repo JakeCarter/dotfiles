@@ -9,7 +9,7 @@ brew "z"
 cask "alfred"
 cask "carbon-copy-cloner"
 cask "coderunner"
-cask "iterm2"
+cask "karabiner-elements"
 cask "nova"
 cask "acorn"
 
