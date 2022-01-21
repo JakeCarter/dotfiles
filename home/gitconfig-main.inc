@@ -18,6 +18,7 @@
   diffc = diff --cached
   diffcw = diff --cached --color-words
   porcelain-branch = !"git branch --format='%(refname:short)'"
+  list-alias = config --get-regexp '^alias\\.'
 [core]
 	excludesfile = ~/.gitignore
 	quotepath = false
