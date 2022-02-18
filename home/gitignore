@@ -4,6 +4,7 @@ xcuserdata
 *.swp
 *.xcscmblueprint
 lldb-tmp-widehistory
+lldb-widehistory
 .Spotlight-V100
 .Trashes
 .fseventsd
