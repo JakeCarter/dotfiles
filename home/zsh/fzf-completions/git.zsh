@@ -25,7 +25,8 @@ _fzf_complete_git_changed_files_post() {
 }
 
 _fzf_complete_git_stashes() {
-    _fzf_complete -- "$@" < <(
+    # Preview command should be something like: `git stash show -p stash@{0} | bat --style=numbers --color=always --line-range :500`
+    _fzf_complete --height 70% --preview 'git stash show -p $(echo {} | cut -d: -f1) | bat --style=numbers --color=always --line-range :500' --preview-window down,80% -- "$@" < <(
         git stash list
     )
 }
