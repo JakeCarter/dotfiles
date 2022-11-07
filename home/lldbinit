@@ -3,6 +3,7 @@ command script import ~/.lldb/pof.py
 command script import ~/.lldb/ch.py
 command script import ~/.lldb/getLastReturnValue.py
 command script import ~/.lldb/debugDynamicAnimator.py
+command script import ~/.lldb/ignore_specified_objc_exceptions.py
 
 ## Aliases
 command alias kw expr -l objc++ -O -- [UIWindow keyWindow]
@@ -11,4 +12,3 @@ command alias rvcd expr -l objc++ -O -- [[[UIWindow keyWindow] rootViewControlle
 command alias fr expr -l objc++ -O -- [[UIWindow keyWindow] valueForKey:@"firstResponder"]
 command alias opo expr -l objc++ -O -- 
 command alias px expression unsafeBitCast(%1, to: Int.self)
-
