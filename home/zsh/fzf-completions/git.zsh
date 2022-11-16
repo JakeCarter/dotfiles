@@ -74,7 +74,7 @@ _fzf_complete_git() {
             esac
             return
         ;;
-        (add|unstage)
+        (add|unstage|diff|restore)
             _fzf_complete_git_changed_files "$@"
             return
         ;;
