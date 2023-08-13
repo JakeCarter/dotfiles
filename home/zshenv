@@ -1,10 +1,6 @@
 # Sets the DOTFILES_PATH environment variable
 source ~/.zsh/path-finder.zsh
 
-# PATH
-export PATH=/opt/homebrew/bin:/opt/brew/bin:$PATH
-export PATH=${DOTFILES_PATH}/bin:$PATH # DOTFILES_PATH defined in `path-finder.zsh`
-
 # Named Directories — https://zsh.sourceforge.io/Guide/zshguide02.html#l20
 export dotfiles=$DOTFILES_PATH
 export dd=~/Library/Developer/Xcode/DerivedData
