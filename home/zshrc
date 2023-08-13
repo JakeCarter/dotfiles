@@ -1,3 +1,7 @@
+# PATH - I would like to setup `PATH` in `.zshenv` but becasue of zsh config ordering, `/etc/zprofile` will get called after which will cuase other paths to come before the ones I set here. To get around that, I'm putting the `PATH` setup here in `.zshrc`
+export PATH=/opt/homebrew/bin:/opt/brew/bin:/opt/homebrew/sbin:/opt/brew/sbin:$PATH
+export PATH=${DOTFILES_PATH}/bin:$PATH # DOTFILES_PATH defined in `path-finder.zsh`
+
 # Options
 setopt PROMPT_SUBST         # PROMPT string is first subjected to parameter expansion, command substitution and arithmetic expansion
 setopt AUTOCD               # Treat input as a `cd` command by default (i.e. typing `~<enter>` will cd to your home dir)
