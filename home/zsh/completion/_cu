@@ -1,0 +1,3 @@
+#compdef cu
+
+_arguments "*: :($(ls /dev | grep "cu"))"
