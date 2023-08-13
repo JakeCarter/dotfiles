@@ -1,5 +1,5 @@
 # Sets the DOTFILES_PATH environment variable
-source ~/.zsh/path-finder.zsh
+source ~/.zsh/dotfiles-path-finder.zsh
 
 # Named Directories — https://zsh.sourceforge.io/Guide/zshguide02.html#l20
 export dotfiles=$DOTFILES_PATH
