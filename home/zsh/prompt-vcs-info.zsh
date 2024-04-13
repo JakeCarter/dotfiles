@@ -31,7 +31,7 @@ function +vi-update-git-skipped() {
 }
 
 function _update_vcs_info() {
-    cd -q $1
+    cd $1
     vcs_info
     print ${vcs_info_msg_0_}
 }

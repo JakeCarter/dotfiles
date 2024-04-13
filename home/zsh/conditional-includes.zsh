@@ -24,12 +24,12 @@ else
     echo '  brew install fzf; source ~/.zshrc'
 fi;
 
-# z
-if [[ -f $(brew --prefix)/etc/profile.d/z.sh ]]; then
-    source "$(brew --prefix)/etc/profile.d/z.sh"
+# zoxide
+if [[ -f $(brew --prefix)/bin/zoxide ]]; then
+    eval "$(zoxide init --cmd cd zsh)"
 else
-    echo 'z not found. Please install:'
-    echo '  brew install z; source ~/.zshrc'
+    echo 'zoxide not found. please install:'
+    echo ' brew install zoxide; source ~/.zshrc'
 fi;
 
 # chruby - Ruby environment tool
