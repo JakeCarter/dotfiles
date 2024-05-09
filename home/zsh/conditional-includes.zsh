@@ -26,7 +26,7 @@ fi;
 
 # zoxide
 if [[ -f $(brew --prefix)/bin/zoxide ]]; then
-    eval "$(zoxide init --cmd cd zsh)"
+    eval "$(zoxide init zsh)"
 else
     echo 'zoxide not found. please install:'
     echo ' brew install zoxide; source ~/.zshrc'
