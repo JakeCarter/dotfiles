@@ -8,14 +8,27 @@ autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
 
-zstyle ':vcs_info:*' formats "(%F{6}%b%f%c%u)"
 zstyle ':vcs_info:*' stagedstr '😎'
 zstyle ':vcs_info:*' unstagedstr '🚧'
-zstyle ':vcs_info:*' actionformats "(%F{6}%b%f%c%u)(%F{1}%a%f)"
+
+# Break vcs_info into multiple formats/actionformats for easier parsing later
+zstyle ':vcs_info:*' max-exports 3
+zstyle ':vcs_info:*' formats "(%F{6}%b%f)" "(%c%u)"
+zstyle ':vcs_info:*' actionformats "(%F{6}%b%f)" "(%c%u)" "(%F{1}%a%f)"
 
 zstyle ':vcs_info:git*+set-message:*' hooks update-git-untracked update-git-skipped
 
+#
+# `set-message` hooks will get called once per format set in formats/actionformats. That means `+vi-update-git-untracked` and `+vi-update-git-skipped` will each get called at least 2 times. 
+# We only care about updating the "unstaged" message, which for both formats and actionformats is set in the 2nd format. 
+# $1 will contain the 0-based index of the current format, so we can use that to ignore calls for formats we don't care about.
+#
+
 function +vi-update-git-untracked() {
+    if [[ "$1" != "1" ]]; then
+            return 0
+    fi
+
     # ZSH doesn't support showing untracked files. Adapted approach from here:
     # http://web.archive.org/web/20121018120253/https://briancarper.net/blog/570/git-info-in-your-zsh-prompt
     if [[ -n $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
@@ -24,6 +37,10 @@ function +vi-update-git-untracked() {
 }
 
 function +vi-update-git-skipped() {
+    if [[ "$1" != "1" ]]; then
+            return 0
+    fi
+
     # I wanted the following test to be `[[ -n $(git ls-files -v 2> /dev/null | grep ^S 2> /dev/null) ]]` but that always returns `false` when run from a vcs_info hook. I think it has something to do with the pipe (|). Relying on the git alias is working though.
     if [[ -n $(git li) ]]; then
         hook_com[unstaged]+="🙈"
@@ -33,7 +50,21 @@ function +vi-update-git-skipped() {
 function _update_vcs_info() {
     cd $1
     vcs_info
-    print ${vcs_info_msg_0_}
+    
+    # vcs_info_msg_0_ will contain the branch info if we're in a git working tree and will be empty otherwise. No need to conditionally add this to the result
+    local result="${vcs_info_msg_0_}"
+
+    # Both vcs_info_msg_1_ and vcs_info_msg_2_ will contain staged, unstaged, untracked and skipped status. These will always be set to at least "()", even if there is no status. Because of this we are only adding them to the result if their string length is greater than 2. I have some ideas on how to make this better, but this is working for now.
+    if [[ ${#vcs_info_msg_1_} -gt 2 ]]; then
+        result="${result} ${vcs_info_msg_1_}"
+    fi
+
+    if [[ ${#vcs_info_msg_2_} -gt 2 ]]; then
+        result="${result} ${vcs_info_msg_2_}"
+    fi
+
+    # This result will end up being the stdout used in `_update_vcs_info_done`
+    print $result
 }
 
 function _update_vcs_info_done() {
