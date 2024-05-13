@@ -2,15 +2,24 @@
 export PATH=/opt/homebrew/bin:/opt/brew/bin:/opt/homebrew/sbin:/opt/brew/sbin:$PATH
 export PATH=${DOTFILES_PATH}/bin:$PATH # DOTFILES_PATH defined in `dotfiles-path-finder.zsh`
 
-# Options
-setopt PROMPT_SUBST         # PROMPT string is first subjected to parameter expansion, command substitution and arithmetic expansion
-setopt AUTOCD               # Treat input as a `cd` command by default (i.e. typing `~<enter>` will cd to your home dir)
-setopt AUTO_PUSHD           # Push the current directory visited on the stack.
-setopt PUSHD_IGNORE_DUPS    # Do not store duplicates in the stack.
-setopt PUSHD_SILENT         # Do not print the directory stack after pushd or popd.
-setopt INC_APPEND_HISTORY   # Add commands to history as they are entered, don't wait for shell to exit
-setopt HIST_IGNORE_DUPS     # Ignore dups in history
-setopt SHARE_HISTORY        # Share history between zsh sessions; Must explicitly type the `history` command in receiving session to populate history recall
+# Options - A lot of these were copied from https://github.com/rothgar/mastering-zsh/blob/master/docs/config/history.md
+setopt PROMPT_SUBST              # PROMPT string is first subjected to parameter expansion, command substitution and arithmetic expansion
+setopt AUTOCD                    # Treat input as a `cd` command by default (i.e. typing `~<enter>` will cd to your home dir)
+setopt AUTO_PUSHD                # Push the current directory visited on the stack.
+setopt PUSHD_IGNORE_DUPS         # Do not store duplicates in the stack.
+setopt PUSHD_SILENT              # Do not print the directory stack after pushd or popd.
+setopt INC_APPEND_HISTORY        # Add commands to history as they are entered, don't wait for shell to exit
+setopt HIST_IGNORE_DUPS          # Ignore dups in history
+setopt SHARE_HISTORY             # Share history between zsh sessions; Must explicitly type the `history` command in receiving session to populate history recall
+setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire a duplicate event first when trimming history.
+setopt HIST_IGNORE_ALL_DUPS      # Delete an old recorded event if a new event is a duplicate.
+setopt HIST_FIND_NO_DUPS         # Do not display a previously found event.
+setopt HIST_IGNORE_SPACE         # Do not record an event starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history file.
+setopt HIST_VERIFY               # Do not execute immediately upon history expansion.
+setopt APPEND_HISTORY            # append to history file
+setopt HIST_NO_STORE             # Don't store history commands (fc -l)
 
 source ~/.zsh/aliases.zsh
 source ~/.zsh/completions.zsh

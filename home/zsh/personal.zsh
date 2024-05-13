@@ -54,3 +54,7 @@ backward-kill-dir () {
 }
 zle -N backward-kill-dir
 bindkey '^[^?' backward-kill-dir
+
+# autoload edit-command-line
+# zle -N edit-command-line
+# bindkey "^Q^E" edit-command-line
