@@ -13,76 +13,79 @@ zstyle ':vcs_info:*' unstagedstr '🚧'
 
 # Break vcs_info into multiple formats/actionformats for easier parsing later
 zstyle ':vcs_info:*' max-exports 3
-zstyle ':vcs_info:*' formats "(%F{6}%b%f)" "(%c%u)"
-zstyle ':vcs_info:*' actionformats "(%F{6}%b%f)" "(%c%u)" "(%F{1}%a%f)"
+zstyle ':vcs_info:*' formats "%F{6}%b%f" "%c%u"
+zstyle ':vcs_info:*' actionformats "%F{6}%b%f" "%c%u" "%F{1}%a%f"
 
-zstyle ':vcs_info:git*+set-message:*' hooks update-git-untracked update-git-skipped
+# Declare the async job and callback
+function async_job_update_git_untracked_skipped() {
+    cd $1
 
-#
-# `set-message` hooks will get called once per format set in formats/actionformats. That means `+vi-update-git-untracked` and `+vi-update-git-skipped` will each get called at least 2 times. 
-# We only care about updating the "unstaged" message, which for both formats and actionformats is set in the 2nd format. 
-# $1 will contain the 0-based index of the current format, so we can use that to ignore calls for formats we don't care about.
-#
-
-function +vi-update-git-untracked() {
-    if [[ "$1" != "1" ]]; then
-            return 0
-    fi
+    local result=""
 
     # ZSH doesn't support showing untracked files. Adapted approach from here:
     # http://web.archive.org/web/20121018120253/https://briancarper.net/blog/570/git-info-in-your-zsh-prompt
     if [[ -n $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
-        hook_com[unstaged]+="👽"
-    fi
-}
-
-function +vi-update-git-skipped() {
-    if [[ "$1" != "1" ]]; then
-            return 0
+        result="${result}👽"
     fi
 
     # I wanted the following test to be `[[ -n $(git ls-files -v 2> /dev/null | grep ^S 2> /dev/null) ]]` but that always returns `false` when run from a vcs_info hook. I think it has something to do with the pipe (|). Relying on the git alias is working though.
     if [[ -n $(git li) ]]; then
-        hook_com[unstaged]+="🙈"
-    fi
-}
-
-function _update_vcs_info() {
-    cd $1
-    vcs_info
-    
-    # vcs_info_msg_0_ will contain the branch info if we're in a git working tree and will be empty otherwise. No need to conditionally add this to the result
-    local result="${vcs_info_msg_0_}"
-
-    # Both vcs_info_msg_1_ and vcs_info_msg_2_ will contain staged, unstaged, untracked and skipped status. These will always be set to at least "()", even if there is no status. Because of this we are only adding them to the result if their string length is greater than 2. I have some ideas on how to make this better, but this is working for now.
-    if [[ ${#vcs_info_msg_1_} -gt 2 ]]; then
-        result="${result} ${vcs_info_msg_1_}"
+        result="${result}🙈"
     fi
 
-    if [[ ${#vcs_info_msg_2_} -gt 2 ]]; then
-        result="${result} ${vcs_info_msg_2_}"
-    fi
-
-    # This result will end up being the stdout used in `_update_vcs_info_done`
     print $result
 }
 
-function _update_vcs_info_done() {
-    local stdout=$3
-    vcs_info_msg_0_=$stdout
-    zle reset-prompt
+function async_job_update_git_untracked_skipped_done() {
+    # https://github.com/mafredri/zsh-async?tab=readme-ov-file#async_process_results-worker_name-callback_function
+    local async_job_stdout=$3
+    local has_next_result_in_buffer=$6
+
+    update_git_prompt_string $async_job_stdout
+
+    # Only reset the prompt if the async results buffer is empty
+    if [[ -n $has_next_result_in_buffer ]]; then
+        zle reset-prompt
+    fi
 }
 
 async_init
-async_start_worker vcs_info_worker
-async_register_callback vcs_info_worker _update_vcs_info_done
+async_start_worker git_info_worker
+async_register_callback git_info_worker async_job_update_git_untracked_skipped_done
+
+function update_git_prompt_string() {
+    # When called from the async job callback, $1 will have the untracked and skipped status string. Otherwise it will be null or empty
+    local git_untracked_or_skipped_msg=$1
+
+    git_prompt_string=""
+    
+    # Branch
+    if [[ -n ${vcs_info_msg_0_} ]]; then
+        git_prompt_string="(${vcs_info_msg_0_})"
+    fi
+
+    # Staged, Unstaged, Untracked and Skipped
+    if [[ -n ${vcs_info_msg_1_} || -n ${git_untracked_or_skipped_msg} ]]; then
+        git_prompt_string="${git_prompt_string} (${vcs_info_msg_1_}${git_untracked_or_skipped_msg})"
+    fi
+
+    # Action message (ex. rebase, merge, etc...)
+    if [[ -n ${vcs_info_msg_2_} ]]; then
+        git_prompt_string="${git_prompt_string} (${vcs_info_msg_2_})"
+    fi
+}
 
 # `precmd` is executed before each prompt. We use this to ensure `vcs_info` is up to date.
 add-zsh-hook precmd () {
-    async_job vcs_info_worker _update_vcs_info $PWD
+    # Updating the untracked and skipped files can be slow in large git repos. Kick this off to a background thread and update the prompt again when this comes back. (Technically just updating the untracked is slow, but I'm fine having these together to simplify things.)
+    async_job git_info_worker async_job_update_git_untracked_skipped $PWD
+    
+    # Let vcs_info do its thing then update the prompt string
+    vcs_info
+    update_git_prompt_string
 }
 
 # Format prompt; %F changes the foreground color to the index provided. %f resets the foreground color
 PROMPT=$'
-%F{2}%n%f at %F{5}%m%f in %F{4}%~%f ${vcs_info_msg_0_}
+%F{2}%n%f at %F{5}%m%f in %F{4}%~%f ${git_prompt_string}
 %(!.#.$) '
