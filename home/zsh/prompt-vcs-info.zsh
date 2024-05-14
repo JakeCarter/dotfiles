@@ -87,5 +87,5 @@ add-zsh-hook precmd () {
 
 # Format prompt; %F changes the foreground color to the index provided. %f resets the foreground color
 PROMPT=$'
-%F{2}%n%f at %F{5}%m%f in %F{4}%~%f ${git_prompt_string}
+%F{2}%n%f on %F{5}%m%f %(1j.🔄 .)in %F{4}%~%f ${git_prompt_string}
 %(!.#.$) '
