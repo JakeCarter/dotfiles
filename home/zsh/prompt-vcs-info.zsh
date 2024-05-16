@@ -83,9 +83,23 @@ add-zsh-hook precmd () {
     # Let vcs_info do its thing then update the prompt string
     vcs_info
     update_git_prompt_string
+
+    update_jobs_string
+}
+
+function update_jobs_string() {
+    if jobs | grep -q "caffeinate"; then;
+        if ! jobs | grep -qv "caffeinate"; then
+            jobs_string="☕️"
+        else
+            jobs_string="🔄☕️"
+        fi
+    else
+        jobs_string="🔄"
+    fi
 }
 
 # Format prompt; %F changes the foreground color to the index provided. %f resets the foreground color
 PROMPT=$'
-%F{2}%n%f on %F{5}%m%f %(1j.🔄 .)in %F{4}%~%f ${git_prompt_string}
+%F{2}%n%f on %F{5}%m%f %(1j.${jobs_string} .)in %F{4}%~%f ${git_prompt_string}
 %(!.#.$) '
