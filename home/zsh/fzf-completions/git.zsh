@@ -35,7 +35,7 @@ _fzf_complete_git_stashes_post() {
 }
 
 _fzf_complete_git_commit_hash() {
-    _fzf_complete -- "$@" < <(
+    _fzf_complete --height 70% --preview 'git show -p $(echo {} | cut -w -f2) | bat --style=numbers --color=always --line-range :500' --preview-window down,80% -- "$@" < <(
         git lg -n 100
     )
 }
