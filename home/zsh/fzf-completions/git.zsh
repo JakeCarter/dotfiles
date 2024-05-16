@@ -120,5 +120,15 @@ _fzf_complete_git() {
                     return
                 ;;
             esac
+        ;;
+        (reset)
+            # git reset ,
+            # 1   2     3 <- need at least 3 tokens
+            if [[ ${#tokens} -le 2 ]]; then
+                return
+            fi
+
+            _fzf_complete_git_commit_hash "$@"
+        ;;
     esac
 }
