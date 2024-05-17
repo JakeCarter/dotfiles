@@ -4,6 +4,12 @@ _fzf_complete_git_branches () {
     )
 }
 
+_fzf_complete_git_branches_multi () {
+    _fzf_complete --multi -- "$@" < <(
+        git porcelain-branch
+    )
+}
+
 _fzf_complete_git_worktrees() {
     _fzf_complete -- "$@" < <(
         git worktree list
@@ -43,6 +49,12 @@ _fzf_complete_git_commit_hash_post() {
     cut -d'-' -f1 | egrep -o \\w+
 }
 
+_fzf_complete_git_remotes() {
+    _fzf_complete -1 -- "$@" < <(
+        git remote
+    )
+}
+
 _fzf_complete_git() {
     # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion-Flags
     # `(z)` splits at zsh word boundaries
@@ -77,6 +89,26 @@ _fzf_complete_git() {
         (add|unstage|diff|restore)
             _fzf_complete_git_changed_files "$@"
             return
+        ;;
+        (push)
+            # git push -d ,
+            # 1   2    3  4 <- need at least 4 tokens
+            if [[ ${#tokens} -le 3 ]]; then
+                return
+            fi
+
+            local git_push_flag=${tokens[3]}
+            case "$git_push_flag" in
+                (-d)
+                    # git push -d remote ,
+                    # 1   2    3  4      5   <- comma could appear at 4 or 5
+                    if [[ ${#tokens} -eq 4 ]]; then
+                        _fzf_complete_git_remotes "$@"
+                    elif [[ ${#tokens} -eq 5 ]]; then
+                        _fzf_complete_git_branches_multi "$@"
+                    fi
+                ;;
+            esac
         ;;
         (stash)
             # git stash push ,
