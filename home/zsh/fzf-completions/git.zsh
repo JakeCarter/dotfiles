@@ -67,7 +67,7 @@ _fzf_complete_git() {
     
     local git_subcommand=${tokens[2]}
     case "$git_subcommand" in
-        (co|checkout|merge)
+        (co|checkout|merge|br|log|lg)
             _fzf_complete_git_branches "$@"
             return
         ;;
