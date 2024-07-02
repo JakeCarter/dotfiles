@@ -36,3 +36,5 @@
 	defaultBranch = main
 [fetch]
 	prune = true
+[diff "swift"] # https://stackoverflow.com/a/34340515
+    xfuncname = ^[ \t]*((class|func)[ \t].*)$
