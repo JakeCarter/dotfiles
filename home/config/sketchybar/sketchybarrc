@@ -1,24 +1,7 @@
-# This is a demo config to showcase some of the most important commands.
-# It is meant to be changed and configured, as it is intentionally kept sparse.
-# For a (much) more advanced configuration example see my dotfiles:
-# https://github.com/FelixKratz/dotfiles
-
 PLUGIN_DIR="$CONFIG_DIR/plugins"
-
-##### Bar Appearance #####
-# Configuring the general appearance of the bar.
-# These are only some of the options available. For all options see:
-# https://felixkratz.github.io/SketchyBar/config/bar
-# If you are looking for other colors, see the color picker:
-# https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
-
 sketchybar --bar display=all position=top margin=0 corner_radius=0 y_offset=0 height=40 blur_radius=80 color=0x40000000
 
-##### Changing Defaults #####
-# We now change some default values, which are applied to all further items.
-# For a full list of all available item properties see:
-# https://felixkratz.github.io/SketchyBar/config/items
-
+# Defaults
 default=(
   padding_left=0
   padding_right=5
@@ -42,24 +25,7 @@ default=(
 )
 sketchybar --default "${default[@]}"
 
-##### Adding Left Items #####
-# We add some regular items to the left side of the bar, where
-# only the properties deviating from the current defaults need to be set
-
-sketchybar --add item apple_logo left \
-           --set apple_logo icon= label.drawing=off y_offset=0 padding_left=-8 padding_right=0 icon.font.size=22
-
-##### Adding Right Items #####
-# In the same way as the left items we can add items to the right side.
-# Additional position (e.g. center) are available, see:
-# https://felixkratz.github.io/SketchyBar/config/items#adding-items-to-sketchybar
-
-# Some items refresh on a fixed cycle, e.g. the clock runs its script once
-# every 10s. Other items respond to events they subscribe to, e.g. the
-# volume.sh script is only executed once an actual change in system audio
-# volume is registered. More info about the event system can be found here:
-# https://felixkratz.github.io/SketchyBar/config/events
-
+# Right items; Clock, volume and battery
 sketchybar --add item clock right \
            --set clock update_freq=10 icon.drawing=off script="$PLUGIN_DIR/clock.sh" \
            --add item volume right \
@@ -69,45 +35,47 @@ sketchybar --add item clock right \
            --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
            --subscribe battery system_woke power_source_change
 
+# Aerospace Workspaces
 sketchybar --add event aerospace_workspace_change
+for sid in {1..9}; do
+    sketchybar --add item space.$sid left \
+        --subscribe space.$sid aerospace_workspace_change \
+        --set space.$sid \
+        click_script="aerospace workspace $sid" \
+        script="$CONFIG_DIR/plugins/aerospace.sh $sid" \
+        width=30 \
+        icon.drawing=off \
+        icon="" \
+        icon.padding_left=0 \
+        icon.padding_right=0 \
+        label="$sid" \
+        label.padding_left=10 \
+        label.padding_right=0 \
+        background.padding_left=0 \
+        background.padding_right=0
+done
 
-for sid in {4..1}; do
-#for sid in $(aerospace list-workspaces --all); do
+# Loop through the B, C, M and T workspaces separately so we can pin them to the left of the notch; sketchybar uses q and e to signify left and right of the notch, respectively
+for sid in T N M C B; do
     sketchybar --add item space.$sid q \
         --subscribe space.$sid aerospace_workspace_change \
         --set space.$sid \
         click_script="aerospace workspace $sid" \
-        script="$CONFIG_DIR/plugins/aerospace.sh $sid"
+        script="$CONFIG_DIR/plugins/aerospace.sh $sid" \
+        icon.padding_right=0 \
+        label.drawing=0ff \
+        label="" \
+        label.padding_left=0 \
+        label.padding_right=0 \
+        background.padding_left=0 \
+        background.padding_right=0
 done
 
-#if [[ $USER == "jake" ]]; then
+sketchybar --set space.B width=30 icon="􀎬" icon.padding_left=7
+sketchybar --set space.C width=30 icon="􀉉" icon.padding_left=6
+sketchybar --set space.M width=30 icon="􀌲" icon.padding_left=5
+sketchybar --set space.N width=30 icon="􀓕" icon.padding_left=5
+sketchybar --set space.T width=30 icon="􀩼" icon.padding_left=5
 
-#fi
-# Loop through the B, C, M and T workspaces separately so we can pin them to the left of the notch; sketchybar uses q and e to signify left and right of the notch, respectively
-for sid in B C M N T; do
-    sketchybar --add item space.$sid e \
-        --subscribe space.$sid aerospace_workspace_change \
-        --set space.$sid \
-        click_script="aerospace workspace $sid" \
-        script="$CONFIG_DIR/plugins/aerospace.sh $sid"
-done
-
-sketchybar --set space.1 width=30 icon.drawing=off icon="" icon.padding_left=0 icon.padding_right=0 label="1" label.padding_left=10 label.padding_right=0 background.padding_left=0 background.padding_right=0
-sketchybar --set space.2 width=30 icon.drawing=off icon="" icon.padding_left=0 icon.padding_right=0 label="2" label.padding_left=10 label.padding_right=0 background.padding_left=0 background.padding_right=0
-sketchybar --set space.3 width=30 icon.drawing=off icon="" icon.padding_left=0 icon.padding_right=0 label="3" label.padding_left=10 label.padding_right=0 background.padding_left=0 background.padding_right=0
-sketchybar --set space.4 width=30 icon.drawing=off icon="" icon.padding_left=0 icon.padding_right=0 label="4" label.padding_left=10 label.padding_right=0 background.padding_left=0 background.padding_right=0
-
-sketchybar --set space.B width=30 icon="􀎬" icon.padding_left=7 icon.padding_right=0 label.drawing=0ff label="" label.padding_left=0 label.padding_right=0 background.padding_left=0 background.padding_right=0
-sketchybar --set space.C width=30 icon="􀉉" icon.padding_left=6 icon.padding_right=0 label.drawing=0ff label="" label.padding_left=0 label.padding_right=0 background.padding_left=0 background.padding_right=0
-sketchybar --set space.M width=30 icon="􀌲" icon.padding_left=5 icon.padding_right=0 label.drawing=0ff label="" label.padding_left=0 label.padding_right=0 background.padding_left=0 background.padding_right=0
-sketchybar --set space.N width=30 icon="􀓕" icon.padding_left=5 icon.padding_right=0 label.drawing=0ff label="" label.padding_left=0 label.padding_right=0 background.padding_left=0 background.padding_right=0
-sketchybar --set space.T width=30 icon="􀩼" icon.padding_left=5 icon.padding_right=0 label.drawing=0ff label="" label.padding_left=0 label.padding_right=0 background.padding_left=0 background.padding_right=0
-
-
-sketchybar --add item front_app left \
-           --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
-                 label.font="SF Pro:Bold:14.0" \
-           --subscribe front_app front_app_switched
-
-##### Force all scripts to run the first time (never do this in a script) #####
+# Force all scripts to run the first time (never do this in a script)
 sketchybar --update
