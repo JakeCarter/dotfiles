@@ -36,46 +36,81 @@ sketchybar --add item clock right \
            --subscribe battery system_woke power_source_change
 
 # Aerospace Workspaces
-sketchybar --add event aerospace_workspace_change
-for sid in {1..9}; do
-    sketchybar --add item space.$sid left \
-        --subscribe space.$sid aerospace_workspace_change \
-        --set space.$sid \
-        click_script="aerospace workspace $sid" \
-        script="$CONFIG_DIR/plugins/aerospace.sh $sid" \
-        width=30 \
-        icon.drawing=off \
-        icon="" \
-        icon.padding_left=0 \
-        icon.padding_right=0 \
-        label="$sid" \
-        label.padding_left=10 \
-        label.padding_right=0 \
-        background.padding_left=0 \
-        background.padding_right=0
-done
+# sketchybar --add event aerospace_workspace_change
+# for sid in {1..9}; do
+#     sketchybar --add item space.$sid left \
+#         --subscribe space.$sid aerospace_workspace_change \
+#         --set space.$sid \
+#         click_script="aerospace workspace $sid" \
+#         script="$CONFIG_DIR/plugins/aerospace.sh $sid" \
+#         width=30 \
+#         icon.drawing=off \
+#         icon="" \
+#         icon.padding_left=0 \
+#         icon.padding_right=0 \
+#         label="$sid" \
+#         label.padding_left=10 \
+#         label.padding_right=0 \
+#         background.padding_left=0 \
+#         background.padding_right=0
+# done
 
 # Loop through the B, C, M and T workspaces separately so we can pin them to the left of the notch; sketchybar uses q and e to signify left and right of the notch, respectively
-for sid in T N M C B; do
-    sketchybar --add item space.$sid q \
-        --subscribe space.$sid aerospace_workspace_change \
-        --set space.$sid \
-        click_script="aerospace workspace $sid" \
-        script="$CONFIG_DIR/plugins/aerospace.sh $sid" \
-        icon.padding_right=0 \
-        label.drawing=0ff \
-        label="" \
-        label.padding_left=0 \
-        label.padding_right=0 \
-        background.padding_left=0 \
-        background.padding_right=0
-done
+# for sid in T N M C B; do
+#     sketchybar --add item space.$sid q \
+#         --subscribe space.$sid aerospace_workspace_change \
+#         --set space.$sid \
+#         click_script="aerospace workspace $sid" \
+#         script="$CONFIG_DIR/plugins/aerospace.sh $sid" \
+#         icon.padding_right=0 \
+#         label.drawing=0ff \
+#         label="" \
+#         label.padding_left=0 \
+#         label.padding_right=0 \
+#         background.padding_left=0 \
+#         background.padding_right=0
+# done
 
-sketchybar --set space.B width=30 icon="􀎬" icon.padding_left=7
-sketchybar --set space.C width=30 icon="􀉉" icon.padding_left=6
-sketchybar --set space.M width=30 icon="􀌲" icon.padding_left=5
-sketchybar --set space.N width=30 icon="􀓕" icon.padding_left=5
-sketchybar --set space.T width=30 icon="􀩼" icon.padding_left=5
+# sketchybar --set space.B width=30 icon="􀎬" icon.padding_left=7
+# sketchybar --set space.C width=30 icon="􀉉" icon.padding_left=6
+# sketchybar --set space.M width=30 icon="􀌲" icon.padding_left=5
+# sketchybar --set space.N width=30 icon="􀓕" icon.padding_left=5
+# sketchybar --set space.T width=30 icon="􀩼" icon.padding_left=5
+
+##### Adding Mission Control Space Indicators #####
+# Let's add some mission control spaces:
+# https://felixkratz.github.io/SketchyBar/config/components#space----associate-mission-control-spaces-with-an-item
+# to indicate active and available mission control spaces.
+
+SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9")
+for i in "${!SPACE_ICONS[@]}"
+do
+  sid="$(($i+1))"
+  space=(
+    space="$sid"
+    #icon="${SPACE_ICONS[i]}"
+    #icon.padding_left=7
+    #icon.padding_right=7
+    #background.color=0x40ffffff
+    #background.corner_radius=5
+    #background.height=25
+    #label.drawing=off
+
+    icon.drawing=off
+    icon=""
+    icon.padding_left=0
+    icon.padding_right=0
+    label="$sid"
+    label.padding_left=5
+    label.padding_right=5
+    background.padding_left=5
+    background.padding_right=5
+
+    script="$PLUGIN_DIR/space.sh"
+    click_script="yabai -m space --focus $sid"
+  )
+  sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}"
+done
 
 # Force all scripts to run the first time (never do this in a script)
 sketchybar --update
