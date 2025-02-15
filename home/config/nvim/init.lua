@@ -192,6 +192,24 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "gitcommit",
+	callback = function()
+		vim.cmd("new") -- Open a new buffer
+		vim.opt_local.buftype = "nofile"
+		vim.opt_local.bufhidden = "wipe"
+		vim.opt_local.buflisted = false
+		vim.opt_local.swapfile = false
+		vim.opt_local.wrap = false
+
+		-- Read the git diff output into the buffer
+		vim.cmd("silent execute '$read !git diff --cached'")
+		vim.opt_local.syntax = "diff"
+		vim.opt_local.modifiable = false
+	end,
+	once = true,
+})
+
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`
