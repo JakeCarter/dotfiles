@@ -1,7 +1,7 @@
 # zsh-autosuggestions
 if [[ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
     source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-    bindkey '^ ' autosuggest-accept
+    bindkey '^y' autosuggest-accept
 else
     echo 'zsh-autosuggestions not found. Please install:'
     echo '  (cd ~/.zsh/; git submodule init; git submodule update); source ~/.zshrc'
@@ -45,3 +45,4 @@ fi
 
 # work.zsh
 [[ -f ~/.work/work.zsh ]] && source ~/.work/work.zsh
+
