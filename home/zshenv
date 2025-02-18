@@ -8,12 +8,6 @@ export dd=~/Library/Developer/Xcode/DerivedData
 # bat
 export BAT_THEME="base16"
 
-# editor
-export EDITOR='vim'
-# keep emacs cli bindings even though EDITOR is vim
-# https://unix.stackexchange.com/questions/197839/why-does-exporting-vim-as-editor-in-zsh-disable-keyboard-shortcuts
-bindkey -e
-
 # fzf
 export FZF_COMPLETION_TRIGGER=','
 export FZF_COMPLETION_OPTS='--border'
@@ -23,3 +17,4 @@ export HOMEBREW_BUNDLE_NO_LOCK=1
 
 # workenv.zsh
 [[ -f ~/.work/workenv.zsh ]] && source ~/.work/workenv.zsh
+
