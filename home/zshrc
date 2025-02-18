@@ -2,6 +2,18 @@
 export PATH=/opt/homebrew/bin:/opt/brew/bin:/opt/homebrew/sbin:/opt/brew/sbin:$PATH
 export PATH=${DOTFILES_PATH}/bin:$PATH # DOTFILES_PATH defined in `dotfiles-path-finder.zsh`
 
+# set editor to nvim if it exists, otherwise set it to vim
+# Need to move this to zshrc because nvim won't be in $PATH until path is set above
+if command -v nvim &> /dev/null; then
+    export EDITOR='nvim'
+else
+    export EDITOR='vim'
+fi
+
+# keep emacs cli bindings even though EDITOR is vim
+# https://unix.stackexchange.com/questions/197839/why-does-exporting-vim-as-editor-in-zsh-disable-keyboard-shortcuts
+bindkey -e
+
 # Options - A lot of these were copied from https://github.com/rothgar/mastering-zsh/blob/master/docs/config/history.md
 setopt PROMPT_SUBST              # PROMPT string is first subjected to parameter expansion, command substitution and arithmetic expansion
 setopt AUTOCD                    # Treat input as a `cd` command by default (i.e. typing `~<enter>` will cd to your home dir)
@@ -27,3 +39,4 @@ source ~/.zsh/fzf-completions.zsh
 source ~/.zsh/conditional-includes.zsh
 source ~/.zsh/prompt-vcs-info.zsh
 source ~/.zsh/personal.zsh
+
