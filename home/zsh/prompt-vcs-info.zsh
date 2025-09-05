@@ -13,8 +13,8 @@ zstyle ':vcs_info:*' unstagedstr '🚧'
 
 # Break vcs_info into multiple formats/actionformats for easier parsing later
 zstyle ':vcs_info:*' max-exports 3
-zstyle ':vcs_info:*' formats "%F{6}%b%f" "%c%u"
-zstyle ':vcs_info:*' actionformats "%F{6}%b%f" "%c%u" "%F{1}%a%f"
+zstyle ':vcs_info:*' formats "%b" "%c%u"
+zstyle ':vcs_info:*' actionformats "%b" "%c%u" "%a"
 
 # Declare the async job and callback
 function async_job_update_git_untracked_skipped() {
@@ -61,7 +61,7 @@ function update_git_prompt_string() {
     
     # Branch
     if [[ -n ${vcs_info_msg_0_} ]]; then
-        git_prompt_string="(${vcs_info_msg_0_})"
+        git_prompt_string="(%F{6}${vcs_info_msg_0_}%f)"
     fi
 
     # Staged, Unstaged, Untracked and Skipped
@@ -71,7 +71,7 @@ function update_git_prompt_string() {
 
     # Action message (ex. rebase, merge, etc...)
     if [[ -n ${vcs_info_msg_2_} ]]; then
-        git_prompt_string="${git_prompt_string} (${vcs_info_msg_2_})"
+        git_prompt_string="${git_prompt_string} (%F{1}${vcs_info_msg_2_}%f)"
     fi
 }
 
