@@ -27,6 +27,7 @@
                     },
                     {
                         "description": "Capslock (Tap: Esc, Hold: Hyper)",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -84,6 +85,7 @@
                     },
                     {
                         "description": "RShift (Tap: Enter, Hold: RShift)",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
