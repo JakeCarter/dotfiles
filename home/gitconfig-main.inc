@@ -21,6 +21,7 @@
   porcelain-branch = !"git branch --format='%(refname:short)'"
   list-alias = config --get-regexp '^alias\\.'
   fixit = rebase -i --autosquash # [Git fixup explained](https://mikulskibartosz.name/git-fixup-explained)
+  delete-remote = !"f() { git push -d origin "$1" && git branch --unset-upstream "$1"; }; f"
 [core]
 	excludesfile = ~/.gitignore
 	quotepath = false
