@@ -58,11 +58,23 @@ function update_git_prompt_string() {
     local git_untracked_or_skipped_msg=$1
 
     git_prompt_string=""
-    
-    # Branch
+
+    # Branch or detached HEAD
     if [[ -n ${vcs_info_msg_0_} ]]; then
-        git_prompt_string="(%F{6}${vcs_info_msg_0_}%f)"
+        # Assume we're in a normal branch
+            git_prompt_string="(%F{6}${vcs_info_msg_0_}%f)"
+        
+        # Check if we're in a detached HEAD state
+        if ! git symbolic-ref -q HEAD >/dev/null 2>&1; then
+            # We're in detached HEAD - try to show commit hash instead
+            local commit_hash=$(git rev-parse --short HEAD 2>/dev/null)
+            if [[ -n $commit_hash ]]; then
+                git_prompt_string="(%F{1}${commit_hash}%f)"
+            fi
+            # If commit_hash is empty, git_prompt_string keeps the original vcs_info_msg_0_ value
+        fi
     fi
+
 
     # Staged, Unstaged, Untracked and Skipped
     if [[ -n ${vcs_info_msg_1_} || -n ${git_untracked_or_skipped_msg} ]]; then
