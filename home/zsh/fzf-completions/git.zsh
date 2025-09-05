@@ -19,6 +19,16 @@ _fzf_complete_git_worktrees_post() {
     cut -f1 -d' '
 }
 
+_fzf_complete_git_worktree_add() {
+    _fzf_complete -- "$@" < <(
+        git porcelain-branch
+    )
+}
+
+_fzf_complete_git_worktree_add_post() {
+    awk -F'/' '{print "../" $1 "-" $NF " " $0}'
+}
+
 _fzf_complete_git_changed_files() {
     # JCTODO: `git diff` below assumes changes are unstaged. It won't show a diff if changes have already been staged. For that we'd need to use `git diff --cached`; Should update this to be able to handle that use-case.
     _fzf_complete --height 50% --multi --preview 'git diff $(echo {} | cut -c 4-) | bat --style=numbers --color=always --line-range :500' --preview-window down,80% -- "$@" < <(
@@ -67,8 +77,12 @@ _fzf_complete_git() {
     
     local git_subcommand=${tokens[2]}
     case "$git_subcommand" in
-        (co|checkout|merge|br|log|lg)
+        (co|checkout|merge|log|lg|delete-remote)
             _fzf_complete_git_branches "$@"
+            return
+        ;;
+        (br)
+            _fzf_complete_git_branches_multi "$@"
             return
         ;;
         (wt|worktree)
@@ -79,6 +93,10 @@ _fzf_complete_git() {
             fi
             local git_worktree_subcommand=${tokens[3]}
             case "$git_worktree_subcommand" in
+                (add)
+                    _fzf_complete_git_worktree_add "$@"
+                    return
+                ;;
                 (remove)
                     _fzf_complete_git_worktrees "$@"
                     return
