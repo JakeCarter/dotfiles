@@ -4,6 +4,27 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Right Control -> Function+Left Control",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "right_control",
+                                    "modifiers": {
+                                        "mandatory": [],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "apple_vendor_keyboard_key_code": "function",
+                                        "modifiers": ["left_control"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Fn+Arrow Key stay Fn+Arrow Key",
                         "enabled": false,
                         "manipulators": [
@@ -27,7 +48,6 @@
                     },
                     {
                         "description": "Capslock (Tap: Esc, Hold: Hyper)",
-                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -105,6 +125,17 @@
                     }
                 ]
             },
+            "devices": [
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": true,
+                        "product_id": 2608,
+                        "vendor_id": 13364
+                    },
+                    "ignore": false
+                }
+            ],
             "name": "Default profile",
             "selected": true,
             "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
