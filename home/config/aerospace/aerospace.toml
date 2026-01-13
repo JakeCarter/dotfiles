@@ -150,10 +150,10 @@ on-mode-changed = []
     alt-comma = 'layout accordion horizontal vertical'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#focus
-    alt-j = 'focus left'
+    alt-j = 'focus --boundaries all-monitors-outer-frame --boundaries-action wrap-around-all-monitors left'
     alt-k = 'focus down'
     alt-i = 'focus up'
-    alt-l = 'focus right'
+    alt-l = 'focus --boundaries all-monitors-outer-frame --boundaries-action wrap-around-all-monitors right'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move
     alt-shift-j = 'move left'
