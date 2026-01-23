@@ -85,6 +85,9 @@ on-mode-changed = []
     outer.top =        10
     outer.right =      10
 
+[workspace-to-monitor-force-assignment]
+    0 = '^built-in retina display$'
+
 #[[on-window-detected]]
 #if.app-id = 'com.apple.iCal'
 #run = ['move-node-to-workspace C']
@@ -166,6 +169,7 @@ on-mode-changed = []
     alt-equal = 'resize smart +50'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
+    alt-0 = 'workspace 0'
     alt-1 = 'workspace 1'
     alt-2 = 'workspace 2'
     alt-3 = 'workspace 3'
@@ -198,6 +202,7 @@ on-mode-changed = []
     alt-z = 'workspace Z'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
+    alt-shift-0 = 'move-node-to-workspace 0'
     alt-shift-1 = 'move-node-to-workspace 1'
     alt-shift-2 = 'move-node-to-workspace 2'
     alt-shift-3 = 'move-node-to-workspace 3'
