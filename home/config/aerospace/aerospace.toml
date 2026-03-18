@@ -44,7 +44,7 @@ default-root-container-orientation = 'auto'
 # See https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
 # See https://nikitabobko.github.io/AeroSpace/commands#move-mouse
 # Fallback value (if you omit the key): on-focused-monitor-changed = []
-on-focused-monitor-changed = ['move-mouse window-lazy-center']
+#on-focused-monitor-changed = ['move-mouse window-lazy-center']
 
 # You can effectively turn off macOS "Hide application" (cmd-h) feature by toggling this flag
 # Useful if you don't use this macOS feature, but accidentally hit cmd-h or cmd-alt-h key
@@ -58,6 +58,7 @@ automatically-unhide-macos-hidden-apps = false
 # persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B",
 #                          "C", "D", "E", "F", "G", "I", "M", "N", "O", "P", "Q",
 #                          "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+persistent-workspaces = ["0"]
 
 # A callback that runs every time binding mode changes
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -95,6 +96,10 @@ on-mode-changed = []
 [[on-window-detected]]
     if.app-id = 'com.apple.Terminal'
     run = ['move-node-to-workspace T']
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.iCal'
+    run = ['move-node-to-workspace C']
 
 #[[on-window-detected]]
 #if.app-id = 'com.apple.Safari'
