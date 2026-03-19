@@ -10,3 +10,4 @@ lldb-widehistory
 .fseventsd
 .DocumentRevisions-V100
 .TemporaryItems
+**/.claude/settings.local.json
