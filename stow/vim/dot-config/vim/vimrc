@@ -49,7 +49,7 @@ map <leader>xq :x<bar>q<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " " Pressing ,ss will toggle and untoggle spell checking
 "set spell spelllang=en_us
-set spellfile=~/.vim/spell/en.utf-8.add
+set spellfile=~/.config/vim/spell/en.utf-8.add
 map <leader>ss :setlocal spell!<cr>
 autocmd FileType gitcommit setlocal spell
 autocmd FileType gitcommit call s:GitCommitDiff()
@@ -147,7 +147,7 @@ set mouse=a
 nnoremap <leader>ft Vatzf
 
 " Create dictionary for custom expansions
-set dictionary+=$HOME/.vim/dict.txt
+set dictionary+=~/.config/vim/dict.txt
 
 "Opens a vertical split and switches over (\v)
 nnoremap <leader>v <C-w>v<C-w>l
@@ -159,7 +159,7 @@ set splitbelow
 set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
 
 "Set up templates for new files
-autocmd BufNewFile *.* silent! 0r $HOME/.vim/templates/template.%:e
+autocmd BufNewFile *.* silent! 0r ~/.config/vim/templates/template.%:e
 
 "Map a change directory to the desktop - Mac specific
 nmap <leader>d :cd ~/Desktop<cr>:e.<cr>
@@ -209,7 +209,7 @@ vmap <C-Down> xp`[V`]
 if has("autocmd")
  augroup myvimrchooks
   au!
-  autocmd bufwritepost .vimrc source ~/.vimrc
+  autocmd bufwritepost vimrc source ~/.config/vim/vimrc
  augroup END
 endif
 
@@ -238,8 +238,8 @@ nmap <leader>bv :bel vsp
 au BufLeave,FocusLost * silent! wall
 
 " Backups
-"set backupdir=~/.vim/tmp/backup// " backups
-"set directory=~/.vim/tmp/swap// " swap files
+"set backupdir=~/.config/vim/tmp/backup// " backups
+"set directory=~/.config/vim/tmp/swap// " swap files
 "set backup " enable backup
 
 " No more stretching for navigating files
