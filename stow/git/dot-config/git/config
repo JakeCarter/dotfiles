@@ -2,5 +2,4 @@
 	name = Jake Carter
 	email = jake@cartermade.com
 [include]
-	path = ~/.gitconfig-main.inc
-
+	path = ~/.config/git/config-common.inc
