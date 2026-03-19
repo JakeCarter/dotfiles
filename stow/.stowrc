@@ -1,4 +1,4 @@
+# Just wanted to call out that I learned about `stow` from this article: https://simoninglis.com/posts/gnu-stow-dotfiles/
 --dotfiles
 --ignore=\.DS_Store
 --target=~
-
