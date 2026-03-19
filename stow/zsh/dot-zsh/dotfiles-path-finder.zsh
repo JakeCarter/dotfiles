@@ -6,6 +6,6 @@
 # the 'zsh' process name. Putting this here and sourcing it from `zshenv` gets
 # around that.
 
-dotfiles_relative_path=${0:A:h}/../../
+dotfiles_relative_path=${0:A:h}/../../../
 export DOTFILES_PATH=${dotfiles_relative_path:A}
 unset dotfiles_relative_path
