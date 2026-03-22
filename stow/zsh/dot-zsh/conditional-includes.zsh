@@ -43,6 +43,11 @@ if command -v pyenv 1>/dev/null 2>&1; then
     eval "$(pyenv init -)"
 fi
 
+# pipx - Python pip version management
+if command -v pipx 1>/dev/null 2>&1; then
+    export PATH="$PATH:~/.local/bin"
+fi
+
 # work.zsh
 [[ -f ~/.work/work.zsh ]] && source ~/.work/work.zsh
 
