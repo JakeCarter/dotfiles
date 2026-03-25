@@ -22,6 +22,7 @@
   list-alias = config --get-regexp '^alias\\.'
   fixit = rebase -i --autosquash # [Git fixup explained](https://mikulskibartosz.name/git-fixup-explained)
   delete-remote = !"f() { git push -d origin "$1" && git branch --unset-upstream "$1"; }; f"
+  nuke = "!read -p \"Hard reset and clean? [y/N] \" confirm && [ \"$confirm\" = \"y\" ] && git reset --hard HEAD && git clean -fd || echo \"Aborted.\""
 [core]
 	excludesFile = ~/.config/git/ignore
   attributesFile = ~/.config/git/attributes
