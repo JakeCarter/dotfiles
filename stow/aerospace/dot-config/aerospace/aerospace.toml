@@ -156,6 +156,7 @@ on-mode-changed = []
 
     # Focuses the next free aerospace workspace
     alt-esc = 'exec-and-forget aerospace workspace $(~/.scripts/aerospace-next-free-workspace.zsh)'
+    alt-shift-esc = 'exec-and-forget aerospace move-node-to-workspace --focus-follows-window $(~/.scripts/aerospace-next-free-workspace.zsh)'
 
     alt-ctrl-shift-f = 'fullscreen'
 
