@@ -154,6 +154,9 @@ on-mode-changed = []
     # end tell'
     # '''
 
+    # Focuses the next free aerospace workspace
+    alt-esc = 'exec-and-forget aerospace workspace $(~/.scripts/aerospace-next-free-workspace.zsh)'
+
     alt-ctrl-shift-f = 'fullscreen'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#layout
