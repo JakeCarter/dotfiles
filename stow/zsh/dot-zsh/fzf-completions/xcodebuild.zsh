@@ -37,5 +37,15 @@ _fzf_complete_xcodebuild() {
                 )
             fi
         ;;
+        (-workspace)
+            _fzf_complete -- "$@" < <(
+                find . -type d -name "*.xcworkspace"
+            )
+        ;;
+        (-scheme)
+            _fzf_complete -- "$@" < <(
+                find . -type f -name "*.xcscheme"
+            )
+        ;;
     esac
 }
