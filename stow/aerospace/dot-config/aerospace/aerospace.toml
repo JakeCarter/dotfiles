@@ -154,9 +154,14 @@ on-mode-changed = []
     # end tell'
     # '''
 
-    # Focuses the next free aerospace workspace
+    # Focus next free workspace
     alt-esc = 'exec-and-forget aerospace workspace $(~/.scripts/aerospace-next-free-workspace.zsh)'
-    alt-shift-esc = 'exec-and-forget aerospace move-node-to-workspace --focus-follows-window $(~/.scripts/aerospace-next-free-workspace.zsh)'
+    # Move node to next free workspace
+    alt-shift-esc = 'exec-and-forget aerospace move-node-to-workspace $(~/.scripts/aerospace-next-free-workspace.zsh)'
+    # Focus last cached free workspace, or next free if no cache found
+    alt-backtick = 'exec-and-forget aerospace workspace $(~/.scripts/aerospace-next-free-workspace-cached.zsh)'
+    # Move node to last cached free worksapce, or next free if no cache found
+    alt-shift-backtick = 'exec-and-forget aerospace move-node-to-workspace $(~/.scripts/aerospace-next-free-workspace-cached.zsh)'
 
     alt-ctrl-shift-f = 'fullscreen'
 
