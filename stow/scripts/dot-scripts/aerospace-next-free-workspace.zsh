@@ -6,6 +6,7 @@ active=($(aerospace list-workspaces --all))
 candidates=({1..9} {A..G} I {M..Z})
 
 for candidate in $candidates; do
+  # (Ie) returns the index of an exact match in $active, or 0 if not found
   if (( ! ${active[(Ie)$candidate]} )); then
     echo $candidate
     exit 0
