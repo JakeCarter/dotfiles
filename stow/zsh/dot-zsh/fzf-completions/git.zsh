@@ -26,6 +26,7 @@ _fzf_complete_git_worktree_add() {
 }
 
 _fzf_complete_git_worktree_add_post() {
+    # Transforms the chosen branch name (ex. `feature/auth/login`) into a the `git worktree add ...` arg pair of 'dir safe path name' and 'original branch name' (ex. `../feature-login feature/auth/login`)d
     awk -F'/' '{print "../" $1 "-" $NF " " $0}'
 }
 
