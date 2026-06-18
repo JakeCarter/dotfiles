@@ -269,6 +269,7 @@ on-mode-changed = []
     esc = ['reload-config', 'mode main']
     r = ['flatten-workspace-tree', 'mode main'] # reset layout
     f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+    c = ['exec-and-forget ~/.scripts/aerospace-collect-app-windows.zsh', 'mode main'] # Collect all windows of the focused app into the current workspace
     backspace = ['close-all-windows-but-current', 'mode main']
 
     alt-shift-h = ['join-with left', 'mode main']
