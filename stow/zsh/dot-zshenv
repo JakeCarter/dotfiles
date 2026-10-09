@@ -4,6 +4,7 @@ source ~/.zsh/dotfiles-path-finder.zsh
 # Named Directories — https://zsh.sourceforge.io/Guide/zshguide02.html#l20
 export dotfiles=$DOTFILES_PATH
 export dd=~/Library/Developer/Xcode/DerivedData
+: ~dotfiles ~dd
 
 # bat
 export BAT_THEME="base16"
